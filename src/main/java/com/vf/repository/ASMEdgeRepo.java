@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.vf.model.ASMEdge;
 
 @Repository
-public interface ASMEdgeRepo extends JpaRepository<ASMEdge, Long> {
+public interface ASMEdgeRepo extends JpaRepository<ASMEdge, String> {
 	
 	@Query("SELECT a FROM ASMEdge a WHERE a.app = ?1")
 	Collection<ASMEdge> findASMEdgeByAppName(String appName);
