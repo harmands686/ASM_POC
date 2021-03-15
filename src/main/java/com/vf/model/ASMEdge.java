@@ -1,6 +1,7 @@
 package com.vf.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -8,16 +9,16 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "asm_edge")
 public class ASMEdge {
 	
-	@NotBlank
+	@Id
 	private String app;
 	
-	@NotBlank
+	@Id
 	private String fromRes;
 
-	@NotBlank
+	@Id
 	private String relationship;
 	
-	@NotBlank
+	@Id
 	private String toRes;
 
 	public String getApp() {
