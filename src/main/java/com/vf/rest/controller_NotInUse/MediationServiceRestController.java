@@ -84,7 +84,7 @@ public class MediationServiceRestController {
     public int asm_checkJobAlreadyRunning(String jobId) throws Exception {
 
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology.verizon-noi.apps.tncmocp.blrlab.in/1.0/rest-observer/jobs/"+jobId;
+    	String url = "noi-topology-rest-observer:9104/1.0/rest-observer/jobs/"+jobId;
     	HttpHeaders headers = new HttpHeaders();
     	//headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -108,7 +108,7 @@ public class MediationServiceRestController {
     public int asm_startBulkJob(String jobId) throws Exception {
 
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology.verizon-noi.apps.tncmocp.blrlab.in/1.0/rest-observer/jobs/bulk_replace";
+    	String url = "noi-topology-rest-observer:9104/1.0/rest-observer/jobs/bulk_replace";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -121,7 +121,7 @@ public class MediationServiceRestController {
     
     		
     	String jsonContent = "{\"unique_id\": " + "\"" + jobId + "\"" + ",\"parameters\": "  + "{" + "\"provider\": " + "\"" + "NOI_ImpactBulkReplaceJob" + "\"}}";
-		
+    	System.out.println("jsonContent>>"+jsonContent);
 		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
 		//String answer = restTemplate.postForObject(url, entity, String.class);
 		ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
@@ -132,7 +132,7 @@ public class MediationServiceRestController {
     public int asm_syncBulkJob(String jobId) throws Exception {
 
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology.verizon-noi.apps.tncmocp.blrlab.in/1.0/rest-observer/jobs/"+jobId+"/synchronize";
+    	String url = "noi-topology-rest-observer:9104/1.0/rest-observer/jobs/"+jobId+"/synchronize";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -154,7 +154,7 @@ public class MediationServiceRestController {
 
     	RestTemplate restTemplate = new RestTemplate();
 
-    	String url = "https://noi-topology.verizon-noi.apps.tncmocp.blrlab.in/1.0/rest-observer/rest/resources";
+    	String url = "noi-topology-rest-observer:9104/1.0/rest-observer/rest/resources";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -168,6 +168,7 @@ public class MediationServiceRestController {
     	for(ASMResource asmResource : resources){
     		
     		String jsonContent = "{\"name\": " + "\"" + asmResource.getUniqueId() + "\"" + ",\"uniqueId\": " + "\""+ asmResource.getUniqueId() + "\"" + ",\"matchTokens\": "  + "[" + "\"" + asmResource.getUniqueId() + "\"" + "]" + ",\"mergeTokens\": " + "[" + "\"" +  asmResource.getUniqueId() + "\"" + "]" + ",\"entityTypes\": "+  "[" + "\"" + asmResource.getEntityTypes() + "\"" + "]}";
+    		System.out.println("jsonContent>>"+jsonContent);
     		
     		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
     		//String answer = restTemplate.postForObject(url, entity, String.class);
@@ -181,7 +182,7 @@ public class MediationServiceRestController {
 
     	RestTemplate restTemplate = new RestTemplate();
 
-    	String url = "https://noi-topology.verizon-noi.apps.tncmocp.blrlab.in/1.0/rest-observer/rest/references";
+    	String url = "noi-topology-rest-observer:9104/1.0/rest-observer/rest/references";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -195,7 +196,7 @@ public class MediationServiceRestController {
     	for(ASMEdge asmEdge : edges){
     		
     		String jsonContent = "{\"_fromUniqueId\": " + "\"" + asmEdge.getFromRes() + "\"" + ",\"_edgeType\": " + "\""+ asmEdge.getRelationShip() + "\"" + ",\"_toUniqueId\": " + "\""+ asmEdge.getToRes() + "\"}";
-    		
+    		System.out.println("jsonContent>>"+jsonContent);	
     		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
     		//String answer = restTemplate.postForObject(url, entity, String.class);
     		ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
