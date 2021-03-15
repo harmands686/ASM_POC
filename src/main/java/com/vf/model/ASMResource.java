@@ -2,6 +2,7 @@ package com.vf.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,18 +10,17 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "as_resource")
-public class ASMResource implements Serializable{
+public class ASMResource{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	
 	@Id
+	@Column(name = "ID")
 	private Integer id;
 	
 	@NotBlank
+	@Column(name = "APP")
 	private String app;
+	
 	public Integer getId() {
 		return id;
 	}
@@ -28,10 +28,12 @@ public class ASMResource implements Serializable{
 		this.id = id;
 	}
 	@NotBlank
+	@Column(name = "UNIQUEID")
 	private String uniqueId;
 
 	@NotBlank
-	private String entitytypes;
+	@Column(name = "ENTITYTYPES")
+	private String entityTypes;
 	
 	public String getApp() {
 		return app;
@@ -45,11 +47,11 @@ public class ASMResource implements Serializable{
 	public void setUniqueId(String uniqueId) {
 		this.uniqueId = uniqueId;
 	}
-	public String getEntitytypes() {
-		return entitytypes;
+	public String getEntityTypes() {
+		return entityTypes;
 	}
-	public void setEntitytypes(String entitytypes) {
-		this.entitytypes = entitytypes;
+	public void setEntityTypes(String entityTypes) {
+		this.entityTypes = entityTypes;
 	}
 
 		

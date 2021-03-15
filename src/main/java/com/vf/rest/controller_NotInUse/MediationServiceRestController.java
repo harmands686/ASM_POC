@@ -19,17 +19,17 @@ import org.springframework.web.client.RestTemplate;
 import com.vf.exception.ASMEdgeNotFoundException;
 import com.vf.model.ASMEdge;
 import com.vf.model.ASMResource;
-import com.vf.repository.ASMEdgeRepo;
-import com.vf.repository.ASMResourceRepo;
+import com.vf.repository.ASMEdgeRepository;
+import com.vf.repository.ASMResourceRepository;
 
 @RestController
 public class MediationServiceRestController {
 
 	@Autowired
-    ASMEdgeRepo asmEdgeRepo;
+    ASMEdgeRepository asmEdgeRepo;
 	
 	@Autowired
-	ASMResourceRepo asmResourceRepo;
+	ASMResourceRepository asmResourceRepo;
 
 	String JOBID="BulkJob1";
 
@@ -43,9 +43,9 @@ public class MediationServiceRestController {
     public String initiateJob() throws ASMEdgeNotFoundException {
 
     	try{
-		    	List<ASMResource> asmResources = (ArrayList<ASMResource>) asmResourceRepo.findASMResourceByApp("gb");
+		    	List<ASMResource> asmResources = (ArrayList<ASMResource>) asmResourceRepo.findByApp("gb");
 		
-		    	List<ASMEdge> asmEdges = (ArrayList<ASMEdge>) asmEdgeRepo.findASMEdgeByApp("gb");
+		    	List<ASMEdge> asmEdges = (ArrayList<ASMEdge>) asmEdgeRepo.findByApp("gb");
 		    	
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
 		    	if(statusCode1 != 200){// Job is not running.
@@ -167,7 +167,7 @@ public class MediationServiceRestController {
     
     	for(ASMResource asmResource : resources){
     		
-    		String jsonContent = "{\"name\": " + "\"" + asmResource.getUniqueId() + "\"" + ",\"uniqueId\": " + "\""+ asmResource.getUniqueId() + "\"" + ",\"matchTokens\": "  + "[" + "\"" + asmResource.getUniqueId() + "\"" + "]" + ",\"mergeTokens\": " + "[" + "\"" +  asmResource.getUniqueId() + "\"" + "]" + ",\"entityTypes\": "+  "[" + "\"" + asmResource.getEntitytypes() + "\"" + "]}";
+    		String jsonContent = "{\"name\": " + "\"" + asmResource.getUniqueId() + "\"" + ",\"uniqueId\": " + "\""+ asmResource.getUniqueId() + "\"" + ",\"matchTokens\": "  + "[" + "\"" + asmResource.getUniqueId() + "\"" + "]" + ",\"mergeTokens\": " + "[" + "\"" +  asmResource.getUniqueId() + "\"" + "]" + ",\"entityTypes\": "+  "[" + "\"" + asmResource.getEntityTypes() + "\"" + "]}";
     		
     		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
     		//String answer = restTemplate.postForObject(url, entity, String.class);
@@ -194,7 +194,7 @@ public class MediationServiceRestController {
     
     	for(ASMEdge asmEdge : edges){
     		
-    		String jsonContent = "{\"_fromUniqueId\": " + "\"" + asmEdge.getFromRes() + "\"" + ",\"_edgeType\": " + "\""+ asmEdge.getRelationship() + "\"" + ",\"_toUniqueId\": " + "\""+ asmEdge.getToRes() + "\"}";
+    		String jsonContent = "{\"_fromUniqueId\": " + "\"" + asmEdge.getFromRes() + "\"" + ",\"_edgeType\": " + "\""+ asmEdge.getRelationShip() + "\"" + ",\"_toUniqueId\": " + "\""+ asmEdge.getToRes() + "\"}";
     		
     		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
     		//String answer = restTemplate.postForObject(url, entity, String.class);

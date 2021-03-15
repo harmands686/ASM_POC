@@ -2,6 +2,7 @@ package com.vf.model;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -9,27 +10,27 @@ import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "asm_edge")
-public class ASMEdge implements Serializable{
+public class ASMEdge{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	
 	@Id
+	@Column(name = "ID")
 	private Integer id;
 	
 	@NotBlank
+	@Column(name = "APP")
 	private String app;
 	
 	@NotBlank
+	@Column(name = "FROMRES")
 	private String fromRes;
 
 	@NotBlank
-	private String relationship;
+	@Column(name = "RELATIONSHIP")
+	private String relationShip;
 	
 	@NotBlank
+	@Column(name = "TORES")
 	private String toRes;
 
 	public String getApp() {
@@ -48,12 +49,12 @@ public class ASMEdge implements Serializable{
 		this.fromRes = fromRes;
 	}
 
-	public String getRelationship() {
-		return relationship;
+	public String getRelationShip() {
+		return relationShip;
 	}
 
-	public void setRelationship(String relationship) {
-		this.relationship = relationship;
+	public void setRelationShip(String relationShip) {
+		this.relationShip = relationShip;
 	}
 
 	public Integer getId() {
