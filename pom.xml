@@ -9,11 +9,11 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.vf</groupId>
-	<artifactId>omsordercreationservice</artifactId>
+	<artifactId>MedationService</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
-	<name>omsordercreationservice</name>
-	<description>Project RedHat hacklathon</description>
+	<name>MedationService</name>
+	<description>Project ASM</description>
 
 	<properties>
 		<java.version>1.8</java.version>
