@@ -38,8 +38,8 @@ public class MediationServiceRestController {
     }
 	
 	
-    @PutMapping("/startBulkJob")
-    public void initiateJob() throws ASMEdgeNotFoundException {
+    @GetMapping("/startBulkJob")
+    public String initiateJob() throws ASMEdgeNotFoundException {
 
     	try{
 		    	List<ASMResource> asmResources = (List<ASMResource>) asmResourceRepo.findASMResourceByAppName("gb");
@@ -58,19 +58,25 @@ public class MediationServiceRestController {
 		    			int status3 = asm_syncBulkJob(JOBID);
 		    			if (status3 != 200){ // If not 200 then we failed.
 		    				System.out.println("ASM BulkJob1 Synchronized can not be completed.");
+		    				
 		    			  } else {  // Result code is 200, ie. successful.
-		    				  System.out.println("ASM BulkJob1 Synchronized is completed successfully");    
+		    				  System.out.println("ASM BulkJob1 Synchronized is completed successfully");
+		    				  
 		    			  }
 		    		}
 		    		
 		    	}else{//Job already running
 		    		System.out.println("ASM BulkJob1 already running!!!");
+		    		return "ASM BulkJob1 already running!!!";
 		    	}
+		    	return "ASM BulkJob1 completed. To see status check logs!!!";
     	
     	}catch (Exception e) {
 			// TODO: handle exception
     		e.printStackTrace();
+    		return e.getMessage();
 		}
+    	
     }
 
     
