@@ -42,9 +42,9 @@ public class MediationServiceRestController {
     public String initiateJob() throws ASMEdgeNotFoundException {
 
     	try{
-		    	List<ASMResource> asmResources = (List<ASMResource>) asmResourceRepo.findASMResourceByAppName("gb");
+		    	List<ASMResource> asmResources = (List<ASMResource>) asmResourceRepo.findASMResourceByApp("gb");
 		
-		    	List<ASMEdge> asmEdges = (List<ASMEdge>) asmEdgeRepo.findASMEdgeByAppName("gb");
+		    	List<ASMEdge> asmEdges = (List<ASMEdge>) asmEdgeRepo.findASMEdgeByApp("gb");
 		    	
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
 		    	if(statusCode1 != 200){// Job is not running.
