@@ -1,6 +1,7 @@
 package com.vf.rest.controller_NotInUse;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
 
@@ -42,9 +43,9 @@ public class MediationServiceRestController {
     public String initiateJob() throws ASMEdgeNotFoundException {
 
     	try{
-		    	List<ASMResource> asmResources = (List<ASMResource>) asmResourceRepo.findASMResourceByApp("gb");
+		    	List<ASMResource> asmResources = (ArrayList<ASMResource>) asmResourceRepo.findASMResourceByApp("gb");
 		
-		    	List<ASMEdge> asmEdges = (List<ASMEdge>) asmEdgeRepo.findASMEdgeByApp("gb");
+		    	List<ASMEdge> asmEdges = (ArrayList<ASMEdge>) asmEdgeRepo.findASMEdgeByApp("gb");
 		    	
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
 		    	if(statusCode1 != 200){// Job is not running.

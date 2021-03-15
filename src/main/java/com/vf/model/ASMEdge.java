@@ -56,6 +56,14 @@ public class ASMEdge implements Serializable{
 		this.relationship = relationship;
 	}
 
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public String getToRes() {
 		return toRes;
 	}

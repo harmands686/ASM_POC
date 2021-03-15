@@ -21,6 +21,12 @@ public class ASMResource implements Serializable{
 	
 	@NotBlank
 	private String app;
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	@NotBlank
 	private String uniqueId;
 
