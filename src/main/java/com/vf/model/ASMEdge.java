@@ -16,16 +16,20 @@ public class ASMEdge implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
+	
 	@Id
+	private Integer id;
+	
+	@NotBlank
 	private String app;
 	
-	@Id
+	@NotBlank
 	private String fromRes;
 
-	@Id
+	@NotBlank
 	private String relationship;
 	
-	@Id
+	@NotBlank
 	private String toRes;
 
 	public String getApp() {
