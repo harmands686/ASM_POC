@@ -89,7 +89,7 @@ public class MediationServiceRestController {
     	//headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
     	//headers.set("Content-Type", "application/json");
-    	//headers.set("Accept", "application/json");
+    	headers.set("Accept", "application/json");
     	String plainCredentials = "noi-topology-verizon-noi-user" + ":" + "IoSGUpTV0LbRLmlhg2IqMASA6Uo8DR/egKz7PKHm8UM=";
         String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
         headers.set("Authorization", "Basic " + base64Credentials);
