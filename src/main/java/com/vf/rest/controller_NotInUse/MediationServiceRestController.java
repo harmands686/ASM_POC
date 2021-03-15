@@ -88,15 +88,15 @@ public class MediationServiceRestController {
     	HttpHeaders headers = new HttpHeaders();
     	//headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
-    	headers.set("Content-Type", "application/json");
-    	headers.set("Accept", "application/json");
+    	//headers.set("Content-Type", "application/json");
+    	//headers.set("Accept", "application/json");
     	String plainCredentials = "noi-topology-verizon-noi-user" + ":" + "IoSGUpTV0LbRLmlhg2IqMASA6Uo8DR/egKz7PKHm8UM=";
         String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
         headers.set("Authorization", "Basic " + base64Credentials);
-    	headers.set("JobId", jobId);
+    	//headers.set("JobId", jobId);
     
     		
-    	HttpEntity<String> entity = new HttpEntity<String>(null,headers);
+    	HttpEntity<String> entity = new HttpEntity<String>(headers);
     	//String answer = restTemplate.postForObject(url, entity, String.class);
     	//ResponseEntity<String> result = restTemplate.getForEntity(url,entity, String.class);
     	ResponseEntity<String> result = restTemplate.exchange(new URI(url), HttpMethod.GET, entity, String.class);
@@ -117,7 +117,7 @@ public class MediationServiceRestController {
     	String plainCredentials = "noi-topology-verizon-noi-user" + ":" + "IoSGUpTV0LbRLmlhg2IqMASA6Uo8DR/egKz7PKHm8UM=";
         String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
         headers.set("Authorization", "Basic " + base64Credentials);
-    	headers.set("JobId", jobId);
+    	//headers.set("JobId", jobId);
     
     		
     	String jsonContent = "{\"unique_id\": " + "\"" + jobId + "\"" + ",\"parameters\": "  + "{" + "\"provider\": " + "\"" + "NOI_ImpactBulkReplaceJob" + "\"}}";
