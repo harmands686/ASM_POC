@@ -11,5 +11,5 @@ import com.vf.model.ASMEdge;
 public interface ASMEdgeRepo extends JpaRepository<ASMEdge, Integer> {
 	
 	@Query("SELECT a FROM ASMEdge a WHERE a.app = ?1")
-	Collection<ASMEdge> findASMEdgeByAppName(String appName);
+	Collection<ASMEdge> findASMEdgeByApp(String app);
 }
