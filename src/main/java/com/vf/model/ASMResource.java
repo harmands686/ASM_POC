@@ -1,6 +1,7 @@
 package com.vf.model;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 
@@ -8,10 +9,11 @@ import javax.validation.constraints.NotBlank;
 @Table(name = "as_resource")
 public class ASMResource {
 	
-	@NotBlank
+	@Id
 	private String app;
-	@NotBlank
+	@Id
 	private String uniqueId;
+
 	@NotBlank
 	private String entitytypes;
 	
