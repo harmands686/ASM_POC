@@ -30,7 +30,7 @@ public class MediationServiceRestController {
 	@Autowired
 	ASMResourceRepository asmResourceRepo;
 
-	String JOBID="BulkJob2";
+	String JOBID="BulkJob3";
 
 	@GetMapping("/hello1")
     public String sayhello() {
@@ -59,6 +59,7 @@ public class MediationServiceRestController {
 		    			System.out.println("************Starting4");
 		    			System.out.println("ASM BulkJob1 started successfully");
 		    			asm_createResource(asmResources,JOBID);
+		    			Thread.sleep(10000);
 		    			asm_createEdge(asmEdges,JOBID);
 		    			int status3 = asm_syncBulkJob(JOBID);
 		    			if (status3 != 200){ // If not 200 then we failed.
