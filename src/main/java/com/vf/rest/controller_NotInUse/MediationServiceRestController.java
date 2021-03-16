@@ -12,7 +12,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -81,8 +80,11 @@ public class MediationServiceRestController {
     }
 
     
-    public int asm_checkJobAlreadyRunning(String jobId) throws Exception {
+    public int asm_checkJobAlreadyRunning(String jobId) {
 
+    	int statusCode = 0;
+    	ResponseEntity<String> result = null;
+    	try{
     	RestTemplate restTemplate = new RestTemplate();
     	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId;
     	HttpHeaders headers = new HttpHeaders();
@@ -99,14 +101,24 @@ public class MediationServiceRestController {
     	HttpEntity<String> entity = new HttpEntity<String>(headers);
     	//String answer = restTemplate.postForObject(url, entity, String.class);
     	//ResponseEntity<String> result = restTemplate.getForEntity(url,entity, String.class);
-    	ResponseEntity<String> result = restTemplate.exchange(new URI(url), HttpMethod.GET, entity, String.class);
+    	result = restTemplate.exchange(new URI(url), HttpMethod.GET, entity, String.class);
+    	statusCode = result.getStatusCodeValue();
     	System.out.println("JSON result<asm_checkJobAlreadyRunning>: "+result.getStatusCodeValue());
-    	return result.getStatusCodeValue();
+    	}
+    	catch(Exception ex){
+    		statusCode = result.getStatusCodeValue();
+    		System.out.println("JSON result<asm_checkJobAlreadyRunning>: "+result.getStatusCodeValue());
+    		ex.printStackTrace();
+    	}
+    	return statusCode;
     	
     }
     
-    public int asm_startBulkJob(String jobId) throws Exception {
+    public int asm_startBulkJob(String jobId) {
 
+    	int statusCode = 0;
+    	ResponseEntity<String> result = null;
+    	try{
     	RestTemplate restTemplate = new RestTemplate();
     	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/bulk_replace";
     	HttpHeaders headers = new HttpHeaders();
@@ -124,13 +136,23 @@ public class MediationServiceRestController {
     	System.out.println("jsonContent>>"+jsonContent);
 		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
 		//String answer = restTemplate.postForObject(url, entity, String.class);
-		ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
+		result = restTemplate.postForEntity(url, entity, String.class);
+		statusCode = result.getStatusCodeValue();
 		System.out.println("JSON result<asm_startBulkJob>: "+result.getStatusCodeValue());
-    	return result.getStatusCodeValue();
+    	}
+    	catch (Exception ex) {
+    		statusCode = result.getStatusCodeValue();
+    		System.out.println("JSON result<asm_startBulkJob>: "+result.getStatusCodeValue());
+    		ex.printStackTrace();
+		}
+    	return statusCode;
     }
 
-    public int asm_syncBulkJob(String jobId) throws Exception {
+    public int asm_syncBulkJob(String jobId) {
 
+    	int statusCode = 0;
+    	ResponseEntity<String> result = null;
+    	try{
     	RestTemplate restTemplate = new RestTemplate();
     	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId+"/synchronize";
     	HttpHeaders headers = new HttpHeaders();
@@ -145,9 +167,16 @@ public class MediationServiceRestController {
     
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		//String answer = restTemplate.postForObject(url, entity, String.class);
-		ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
-		System.out.println("JSON result<asm_startBulkJob>: "+result.getStatusCodeValue());
-    	return result.getStatusCodeValue();
+		result = restTemplate.postForEntity(url, entity, String.class);
+		statusCode = result.getStatusCodeValue();
+		System.out.println("JSON result<asm_startBulkJob>: "+statusCode);
+    }
+	catch (Exception ex) {
+		statusCode = result.getStatusCodeValue();
+		System.out.println("JSON result<asm_syncBulkJob>: "+result.getStatusCodeValue());
+		ex.printStackTrace();
+	}
+	return statusCode;
     }
 
     public void asm_createResource(List<ASMResource> resources,String jobId) throws Exception {
