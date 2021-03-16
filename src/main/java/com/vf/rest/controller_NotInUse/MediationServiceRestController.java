@@ -30,7 +30,7 @@ public class MediationServiceRestController {
 	@Autowired
 	ASMResourceRepository asmResourceRepo;
 
-	String JOBID="BulkJob1";
+	String JOBID="BulkJob2";
 
 	@GetMapping("/hello1")
     public String sayhello() {
@@ -51,6 +51,7 @@ public class MediationServiceRestController {
 		    	if(statusCode1 != 200){// Job is not running.
 		    		System.out.println("************Starting2");
 		    		int statusCode2 = asm_startBulkJob(JOBID);
+		    		Thread.sleep(10000);
 		    		if(statusCode2 != 201 ){// If not 201 then we failed
 		    			System.out.println("************Starting3");
 		    			System.out.println("ASM BulkJob1 failed to start!!!");
