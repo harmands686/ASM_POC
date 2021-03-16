@@ -84,7 +84,7 @@ public class MediationServiceRestController {
     public int asm_checkJobAlreadyRunning(String jobId) throws Exception {
 
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology-file-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId;
+    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId;
     	HttpHeaders headers = new HttpHeaders();
     	//headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -108,7 +108,7 @@ public class MediationServiceRestController {
     public int asm_startBulkJob(String jobId) throws Exception {
 
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology-file-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/bulk_replace";
+    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/bulk_replace";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -132,7 +132,7 @@ public class MediationServiceRestController {
     public int asm_syncBulkJob(String jobId) throws Exception {
 
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology-file-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId+"/synchronize";
+    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId+"/synchronize";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -154,7 +154,7 @@ public class MediationServiceRestController {
 
     	RestTemplate restTemplate = new RestTemplate();
 
-    	String url = "https://noi-topology-file-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/resources";
+    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/resources";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -182,7 +182,7 @@ public class MediationServiceRestController {
 
     	RestTemplate restTemplate = new RestTemplate();
 
-    	String url = "https://noi-topology-file-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/references";
+    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/references";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
