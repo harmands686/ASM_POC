@@ -4,4 +4,4 @@ COPY ${JAR_FILE} asm_poc_medation.jar
 COPY asmFileObserver.crt /tmp/certificate.crt
 RUN  keytool -noprompt -import -alias mycert -storepass changeit -keystore $JAVA_HOME/jre/lib/security/cacerts -file /tmp/certificate.crt
 #CMD ["keytool", "-list", "-keystore",  "/opt/java/openjdk/lib/security/cacerts", "-alias", "mycert", "-storepass", "changeit" ]
-ENTRYPOINT ["java","-jar","/asm_poc_medation.jar"]
+ENTRYPOINT ["java","-Dcom.sun.jndi.ldap.object.disableEndpointIdentification=true","-jar","/asm_poc_medation.jar"]
