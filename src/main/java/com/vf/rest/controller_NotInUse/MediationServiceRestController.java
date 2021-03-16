@@ -51,7 +51,7 @@ public class MediationServiceRestController {
 	}
 	
     @GetMapping("/startBulkJob/{id}/{provider}")
-    public String initiateJob(@PathVariable(value = "id") String JOBID,@PathVariable(value = "id") String PROVIDER) throws ASMEdgeNotFoundException {
+    public String initiateJob(@PathVariable(value = "id") String JOBID,@PathVariable(value = "provider") String PROVIDER) throws ASMEdgeNotFoundException {
 
     	try{
     		if(PROVIDER != null || !PROVIDER.equals("")){
