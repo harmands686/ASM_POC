@@ -31,24 +31,34 @@ public class MediationServiceRestController {
 	@Autowired
 	ASMResourceRepository asmResourceRepo;
 
-
+	
+	String url1 = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/jobid_replace";
+	String url2 = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/bulk_replace";
+	String url3 = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/resources";
+	String url4 = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/references";
+	String url5 = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/jobid_replace/synchronize";
+	
 	@GetMapping("/hello1")
     public String sayhello() {
         return "Welcome1";
     }
 	
 	public boolean runJob(int statusCode){
-		return true; //Always run job for testing purpose
-		/*if(statusCode !=200){ //Job is not already running
+		if(statusCode !=200){ //Job is not already running
 			return true;
 		}else
 			return false; // Job is already running
-*/	}
+	}
 	
-    @GetMapping("/startBulkJob/{id}")
-    public String initiateJob(@PathVariable(value = "id") String JOBID) throws ASMEdgeNotFoundException {
+    @GetMapping("/startBulkJob/{id}/{provider}")
+    public String initiateJob(@PathVariable(value = "id") String JOBID,@PathVariable(value = "id") String PROVIDER) throws ASMEdgeNotFoundException {
 
     	try{
+    		if(PROVIDER != null || !PROVIDER.equals("")){
+    		}
+    		else{
+    			PROVIDER = "Dummy_DataSource_Provider";
+    		}
 		    	List<ASMResource> asmResources = (ArrayList<ASMResource>) asmResourceRepo.findByApp("gb");
 		
 		    	List<ASMEdge> asmEdges = (ArrayList<ASMEdge>) asmEdgeRepo.findByApp("gb");
@@ -57,7 +67,7 @@ public class MediationServiceRestController {
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
 		    	System.out.println("StatusCode1="+statusCode1);
 		    	if(runJob(statusCode1) == true){
-		    		int statusCode2 = asm_startBulkJob(JOBID);
+		    		int statusCode2 = asm_startBulkJob(JOBID,PROVIDER);
 		    		System.out.println("statusCode2="+statusCode2);
 		    		System.out.println("Sleeping for 10 seconds");
 		    		Thread.sleep(10000);
@@ -101,7 +111,6 @@ public class MediationServiceRestController {
     	ResponseEntity<String> result = null;
     	try{
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId;
     	HttpHeaders headers = new HttpHeaders();
     	//headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -111,12 +120,11 @@ public class MediationServiceRestController {
         String base64Credentials = new String(Base64.getEncoder().encode(plainCredentials.getBytes()));
         headers.set("Authorization", "Basic " + base64Credentials);
     	//headers.set("JobId", jobId);
-    
     		
     	HttpEntity<String> entity = new HttpEntity<String>(headers);
     	//String answer = restTemplate.postForObject(url, entity, String.class);
     	//ResponseEntity<String> result = restTemplate.getForEntity(url,entity, String.class);
-    	result = restTemplate.exchange(new URI(url), HttpMethod.GET, entity, String.class);
+    	result = restTemplate.exchange(new URI(url1.replaceAll("jobid_replace", jobId)), HttpMethod.GET, entity, String.class);
     	statusCode = result.getStatusCodeValue();
     	System.out.println("JSON result<asm_checkJobAlreadyRunning>: "+result.getStatusCodeValue());
     	}
@@ -127,13 +135,12 @@ public class MediationServiceRestController {
     	
     }
     
-    public int asm_startBulkJob(String jobId) {
+    public int asm_startBulkJob(String jobId, String provider) {
 
     	int statusCode = 0;
     	ResponseEntity<String> result = null;
     	try{
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/bulk_replace";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -145,11 +152,11 @@ public class MediationServiceRestController {
     	//headers.set("JobId", jobId);
     
     		
-    	String jsonContent = "{\"unique_id\": " + "\"" + jobId + "\"" + ",\"parameters\": "  + "{" + "\"provider\": " + "\"" + "NOI_ImpactBulkReplaceJob" + "\"}}";
+    	String jsonContent = "{\"unique_id\": " + "\"" + jobId + "\"" + ",\"parameters\": "  + "{" + "\"provider\": " + "\"" + provider+ "\"}}";
     	System.out.println("jsonContent>>"+jsonContent);
 		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
 		//String answer = restTemplate.postForObject(url, entity, String.class);
-		result = restTemplate.postForEntity(url, entity, String.class);
+		result = restTemplate.postForEntity(url2, entity, String.class);
 		statusCode = result.getStatusCodeValue();
 		System.out.println("JSON result<asm_startBulkJob>: "+result.getStatusCodeValue());
     	}
@@ -165,7 +172,6 @@ public class MediationServiceRestController {
     	ResponseEntity<String> result = null;
     	try{
     	RestTemplate restTemplate = new RestTemplate();
-    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/jobs/"+jobId+"/synchronize";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -178,9 +184,9 @@ public class MediationServiceRestController {
     
 		HttpEntity<String> entity = new HttpEntity<String>(headers);
 		//String answer = restTemplate.postForObject(url, entity, String.class);
-		result = restTemplate.postForEntity(url, entity, String.class);
+		result = restTemplate.postForEntity(url5.replaceAll("jobid_replace", jobId), entity, String.class);
 		statusCode = result.getStatusCodeValue();
-		System.out.println("JSON result<asm_startBulkJob>: "+statusCode);
+		System.out.println("JSON result<asm_syncBulkJob>: "+statusCode);
     }
 	catch (Exception ex) {
 		ex.printStackTrace();
@@ -192,7 +198,6 @@ public class MediationServiceRestController {
 
     	RestTemplate restTemplate = new RestTemplate();
 
-    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/resources";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -210,7 +215,7 @@ public class MediationServiceRestController {
     		
     		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
     		//String answer = restTemplate.postForObject(url, entity, String.class);
-    		ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
+    		ResponseEntity<String> result = restTemplate.postForEntity(url3, entity, String.class);
     		System.out.println("JSON result<asm_creteResource>: "+result.getStatusCodeValue());
     	}
        
@@ -220,7 +225,6 @@ public class MediationServiceRestController {
 
     	RestTemplate restTemplate = new RestTemplate();
 
-    	String url = "https://noi-topology-rest-observer.verizon-noi.svc:9104/1.0/rest-observer/rest/references";
     	HttpHeaders headers = new HttpHeaders();
     	headers.setContentType(MediaType.APPLICATION_JSON);
     	headers.set("X-TenantID", "cfd95b7e-3bc7-4006-a4a8-a73a79c71255");
@@ -237,7 +241,7 @@ public class MediationServiceRestController {
     		System.out.println("jsonContent>>"+jsonContent);	
     		HttpEntity<String> entity = new HttpEntity<String>(jsonContent,headers);
     		//String answer = restTemplate.postForObject(url, entity, String.class);
-    		ResponseEntity<String> result = restTemplate.postForEntity(url, entity, String.class);
+    		ResponseEntity<String> result = restTemplate.postForEntity(url4, entity, String.class);
     		System.out.println("JSON result<asm_createEdge>: "+result.getStatusCodeValue());
     	}
        
