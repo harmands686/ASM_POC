@@ -46,12 +46,16 @@ public class MediationServiceRestController {
 		
 		    	List<ASMEdge> asmEdges = (ArrayList<ASMEdge>) asmEdgeRepo.findByApp("gb");
 		    	
+		    	System.out.println("************Starting");
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
 		    	if(statusCode1 != 200){// Job is not running.
+		    		System.out.println("************Starting2");
 		    		int statusCode2 = asm_startBulkJob(JOBID);
 		    		if(statusCode2 != 201 ){// If not 201 then we failed
+		    			System.out.println("************Starting3");
 		    			System.out.println("ASM BulkJob1 failed to start!!!");
 		    		}else{// Result code is 201, ie. successful.
+		    			System.out.println("************Starting4");
 		    			System.out.println("ASM BulkJob1 started successfully");
 		    			asm_createResource(asmResources,JOBID);
 		    			asm_createEdge(asmEdges,JOBID);
@@ -69,6 +73,7 @@ public class MediationServiceRestController {
 		    		System.out.println("ASM BulkJob1 already running!!!");
 		    		return "ASM BulkJob1 already running!!!";
 		    	}
+		    	System.out.println("************Starting5");
 		    	return "ASM BulkJob1 completed. To see status check logs!!!";
     	
     	}catch (Exception e) {
@@ -106,8 +111,6 @@ public class MediationServiceRestController {
     	System.out.println("JSON result<asm_checkJobAlreadyRunning>: "+result.getStatusCodeValue());
     	}
     	catch(Exception ex){
-    		statusCode = result.getStatusCodeValue();
-    		System.out.println("JSON result<asm_checkJobAlreadyRunning>: "+result.getStatusCodeValue());
     		ex.printStackTrace();
     	}
     	return statusCode;
@@ -141,8 +144,6 @@ public class MediationServiceRestController {
 		System.out.println("JSON result<asm_startBulkJob>: "+result.getStatusCodeValue());
     	}
     	catch (Exception ex) {
-    		statusCode = result.getStatusCodeValue();
-    		System.out.println("JSON result<asm_startBulkJob>: "+result.getStatusCodeValue());
     		ex.printStackTrace();
 		}
     	return statusCode;
@@ -172,8 +173,6 @@ public class MediationServiceRestController {
 		System.out.println("JSON result<asm_startBulkJob>: "+statusCode);
     }
 	catch (Exception ex) {
-		statusCode = result.getStatusCodeValue();
-		System.out.println("JSON result<asm_syncBulkJob>: "+result.getStatusCodeValue());
 		ex.printStackTrace();
 	}
 	return statusCode;
