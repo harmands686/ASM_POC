@@ -12,6 +12,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
@@ -30,16 +31,23 @@ public class MediationServiceRestController {
 	@Autowired
 	ASMResourceRepository asmResourceRepo;
 
-	String JOBID="BulkJob3";
+	//String JOBID="BulkJob3";
 
 	@GetMapping("/hello1")
     public String sayhello() {
         return "Welcome1";
     }
 	
+	public boolean runJob(int statusCode){
+		return true; //Always run job for testing purpose
+		/*if(statusCode !=200){ //Job is not already running
+			return true;
+		}else
+			return false; // Job is already running
+*/	}
 	
-    @GetMapping("/startBulkJob")
-    public String initiateJob() throws ASMEdgeNotFoundException {
+    @GetMapping("/startBulkJob/{id}")
+    public String initiateJob(@PathVariable(value = "id") String JOBID) throws ASMEdgeNotFoundException {
 
     	try{
 		    	List<ASMResource> asmResources = (ArrayList<ASMResource>) asmResourceRepo.findByApp("gb");
@@ -48,7 +56,7 @@ public class MediationServiceRestController {
 		    	
 		    	System.out.println("************Starting");
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
-		    	if(statusCode1 != 200){// Job is not running.
+		    	if(runJob(statusCode1)){
 		    		System.out.println("************Starting2");
 		    		int statusCode2 = asm_startBulkJob(JOBID);
 		    		Thread.sleep(10000);
@@ -59,7 +67,7 @@ public class MediationServiceRestController {
 		    			System.out.println("************Starting4");
 		    			System.out.println("ASM BulkJob1 started successfully");
 		    			asm_createResource(asmResources,JOBID);
-		    			Thread.sleep(10000);
+		    			Thread.sleep(30000);
 		    			asm_createEdge(asmEdges,JOBID);
 		    			int status3 = asm_syncBulkJob(JOBID);
 		    			if (status3 != 200){ // If not 200 then we failed.
