@@ -31,7 +31,6 @@ public class MediationServiceRestController {
 	@Autowired
 	ASMResourceRepository asmResourceRepo;
 
-	//String JOBID="BulkJob3";
 
 	@GetMapping("/hello1")
     public String sayhello() {
@@ -54,37 +53,38 @@ public class MediationServiceRestController {
 		
 		    	List<ASMEdge> asmEdges = (ArrayList<ASMEdge>) asmEdgeRepo.findByApp("gb");
 		    	
-		    	System.out.println("************Starting");
+		    	System.out.println("************Starting Bulk Replace job with job id "+JOBID);
 		    	int statusCode1 = asm_checkJobAlreadyRunning(JOBID);
-		    	if(runJob(statusCode1)){
-		    		System.out.println("************Starting2");
+		    	System.out.println("StatusCode1="+statusCode1);
+		    	if(runJob(statusCode1) == true){
 		    		int statusCode2 = asm_startBulkJob(JOBID);
+		    		System.out.println("statusCode2="+statusCode2);
+		    		System.out.println("Sleeping for 10 seconds");
 		    		Thread.sleep(10000);
 		    		if(statusCode2 != 201 ){// If not 201 then we failed
-		    			System.out.println("************Starting3");
-		    			System.out.println("ASM BulkJob1 failed to start!!!");
+		    			System.out.println("ASM "+JOBID+" failed to start!!!");
 		    		}else{// Result code is 201, ie. successful.
-		    			System.out.println("************Starting4");
-		    			System.out.println("ASM BulkJob1 started successfully");
+		    			System.out.println("ASM "+JOBID+" started successfully");
 		    			asm_createResource(asmResources,JOBID);
+		    			System.out.println("Sleeping for 30 seconds");
 		    			Thread.sleep(30000);
 		    			asm_createEdge(asmEdges,JOBID);
 		    			int status3 = asm_syncBulkJob(JOBID);
+		    			System.out.println("statusCode3="+status3);
 		    			if (status3 != 200){ // If not 200 then we failed.
-		    				System.out.println("ASM BulkJob1 Synchronized can not be completed.");
+		    				System.out.println("ASM "+JOBID+" Synchronized can not be completed.");
 		    				
 		    			  } else {  // Result code is 200, ie. successful.
-		    				  System.out.println("ASM BulkJob1 Synchronized is completed successfully");
+		    				  System.out.println("ASM "+JOBID+" Synchronized is completed successfully");
 		    				  
 		    			  }
 		    		}
 		    		
 		    	}else{//Job already running
-		    		System.out.println("ASM BulkJob1 already running!!!");
-		    		return "ASM BulkJob1 already running!!!";
+		    		System.out.println("ASM "+JOBID+ " already running!!!");
+		    		return "ASM "+JOBID+" already running!!!";
 		    	}
-		    	System.out.println("************Starting5");
-		    	return "ASM BulkJob1 completed. To see status check logs!!!";
+		    	return "ASM " +JOBID+ " completed. To see status check logs!!!";
     	
     	}catch (Exception e) {
 			// TODO: handle exception
